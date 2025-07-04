@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Thêm câu hỏi mới</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  
+</head>
+<body>
+  <div id="menuContainer"></div> <!-- Nơi menu sẽ được nhét vào -->
+
+<script>
+fetch("/menu.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("menuContainer").innerHTML = data;
+  });
+</script>
+<div class="container col-lg-8 mt-5">
+  <!-- Tiêu đề thêm câu hỏi -->
+  <h3 class="mb-4 text-primary fw-bold">📝 Thêm câu hỏi mới vào hệ thống hỏi đáp môn tin</h3>
+
+  <!-- Form thêm câu hỏi -->
+  <form id="addForm" class="border rounded p-4 shadow-sm bg-light">
+    <div class="mb-3 text-start">
+      <label for="danhmuc" class="form-label fw-semibold">📂 Danh mục</label>
+      <select id="danhmuc" class="form-select" required>
+        <option value="">-- Chọn danh mục --</option>
+      </select>
+    </div>
+
+    <div class="mb-3 text-start">
+      <label for="newQuestion" class="form-label fw-semibold">❓ Câu hỏi</label>
+      <input type="text" id="newQuestion" class="form-control" placeholder="Nhập câu hỏi..." required>
+    </div>
+
+    <div class="mb-3 text-start">
+      <label for="newAnswer" class="form-label fw-semibold">💬 Câu trả lời</label>
+      <textarea id="newAnswer" class="form-control" rows="5" placeholder="Nhập câu trả lời..." required></textarea>
+    </div>
+
+    <button type="submit" class="btn bg-white fs-5 d-flex justify-content-center align-items-center">📥</button>
+  </form>
+
+  <!-- Tìm kiếm + Số dòng / trang -->
+  <hr class="my-5">
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4 gap-3">
+    <input type="text" id="searchInput" class="form-control w-100 w-md-50" placeholder="🔍 Tìm kiếm câu hỏi hoặc trả lời...">
+    <select id="rowsPerPage" class="form-select" style="max-width: 180px;">
+      <option value="5">5 dòng/trang</option>
+      <option value="10">10 dòng/trang</option>
+      <option value="20">20 dòng/trang</option>
+    </select>
+  </div>
+
+  <!-- Danh sách câu hỏi -->
+  <h3 class="mb-3 text-primary fw-bold">📋 Danh sách câu hỏi</h3>
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle text-center" id="questionTable">
+      <thead class="table-primary">
+        <tr>
+          <th>#</th>
+          <th>Danh mục</th>
+          <th>Câu hỏi</th>
+          <th>Trả lời</th>
+          <th>Xóa</th>
+          <th>Sửa</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- Phân trang -->
+  <div class="d-flex justify-content-center mt-3" id="paginationControls"></div>
+</div>
+
+<script src="/main.js"></script>
+</html>
