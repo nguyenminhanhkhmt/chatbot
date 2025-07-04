@@ -240,3 +240,14 @@ def get_grouped_unknown_questions_embedding():
         })
 
     return {"groups": result}
+
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+import os
+
+# Gắn thư mục tĩnh
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+@app.get("/")
+def serve_home():
+    return FileResponse(os.path.join("static", "chatbot.html"))

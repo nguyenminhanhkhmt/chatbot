@@ -1,0 +1,35 @@
+<!-- static/chatbot.html -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Chatbot Tuyển Sinh</title>
+</head>
+<body>
+  <h2>Chatbot Tuyển Sinh</h2>
+  <div id="chat-box" style="border: 1px solid #ccc; padding: 10px; width: 400px; height: 300px; overflow-y: scroll;"></div>
+  <input type="text" id="input" placeholder="Nhập câu hỏi..." style="width: 300px;">
+  <button onclick="send()">Gửi</button>
+
+  <script>
+    async function send() {
+      const message = document.getElementById('input').value;
+      document.getElementById('input').value = "";
+
+      document.getElementById('chat-box').innerHTML += `<div><b>Bạn:</b> ${message}</div>`;
+
+      const response = await fetch('/chat', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          session_id: "demo-session",
+          messages: [{"role": "user", "content": message}]
+        })
+      });
+
+      const data = await response.json();
+      document.getElementById('chat-box').innerHTML += `<div><b>Bot:</b> ${data.response}</div>`;
+    }
+  </script>
+</body>
+</html>

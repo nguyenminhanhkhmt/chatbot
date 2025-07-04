@@ -12,22 +12,22 @@ app.use(express.json());
 
 const db = mysql.createConnection({
   host: 'localhost',
-  user: 'chatbot',
-  password: 'chatbot@123',
-  database: 'chatbot'
+  user: 'chatbottuyensinh',
+  password: 'Anh123@',
+  database: 'chatbottuyensinh'
 });
 function basicAuth(req, res, next) {
   const credentials = auth(req);
-  const USERNAME = 'ychi';
-  const PASSWORD = 'Chi@2025';
+  const USERNAME = 'minhanh';
+  const PASSWORD = 'Anh@2025';
   if (!credentials || credentials.name !== USERNAME || credentials.pass !== PASSWORD) {
-    res.set('WWW-Authenticate', 'Basic realm="VLE Admin"');
+    res.set('WWW-Authenticate', 'Basic realm="HE THONG TUYEN SINH"');
     return res.status(401).send('Access denied');
   }
   next();
 }
 // Bảo vệ addForm.html bằng Basic Auth
-app.get('/dasboard', basicAuth,(req, res) => {
+app.get('/dashboard', basicAuth,(req, res) => {
   res.sendFile(path.join(__dirname, '..','frontend','dashboard.html'));
 });
 app.get('/admin', basicAuth,(req, res) => {
