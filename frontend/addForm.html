@@ -2,79 +2,121 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Thêm câu hỏi mới</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Thêm câu hỏi</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Google Font Montserrat -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Montserrat', sans-serif; background-color: #f4f6fa; }
+    .card { border: none; border-radius: .75rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .card-header { background: #fff; border-bottom: 1px solid #e9ecef; padding: 1rem; }
+    .card-header h2 { margin: 0; color: #364152; }
+    .btn-custom { background-color: #364152; color: #fff; }
+    .btn-custom:hover { background-color: #2a323c; }
+    .form-section { background: #fff; border-radius: .5rem; padding: 1.5rem; margin-bottom: 2rem; }
+    .form-section .form-label { color: #364152; font-weight: 500; }
+    .table thead { background-color: #556ee6; }
+    .table thead th { color: #fff; border-bottom: none; }
+    .table tbody tr:hover { background-color: #f1f5fb; }
+    .pagination .page-item .page-link { color: #556ee6; }
+    .pagination .active .page-link { background-color: #556ee6; border-color: #556ee6; color: #fff; }
+    .input-group-text { background: #fff; border-right: 0; color: #6e7681; }
+    .input-group .form-control { border-left: 0; }
+  </style>
 </head>
 <body>
-  <div id="menuContainer"></div> <!-- Nơi menu sẽ được nhét vào -->
+  <!-- Menu -->
+  <div id="menuContainer"></div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('/menu.html')
+        .then(r => r.text())
+        .then(html => document.getElementById('menuContainer').innerHTML = html);
+    });
+  </script>
 
-<script>
-fetch("/menu.html")
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById("menuContainer").innerHTML = data;
-  });
-</script>
-<div class="container col-lg-8 mt-5">
-  <!-- Tiêu đề thêm câu hỏi -->
-  <h3 class="mb-4 text-primary fw-bold">📝 Thêm câu hỏi mới vào hệ thống hỏi đáp môn tin</h3>
-
-  <!-- Form thêm câu hỏi -->
-  <form id="addForm" class="border rounded p-4 shadow-sm bg-light">
-    <div class="mb-3 text-start">
-      <label for="danhmuc" class="form-label fw-semibold">📂 Danh mục</label>
-      <select id="danhmuc" class="form-select" required>
-        <option value="">-- Chọn danh mục --</option>
-      </select>
+  <div class="container my-5">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h2><i class="bi bi-question-diamond-fill me-2"></i>Thêm câu hỏi</h2>
+        
+      </div>
+      <div class="card-body">
+        <!-- Thêm câu hỏi (inline) -->
+        <div class="form-section">
+          <form id="addForm" class="row g-3">
+            <div class="col-md-4">
+              <label for="danhmuc" class="form-label">Danh mục</label>
+              <select id="danhmuc" class="form-select" required>
+                <option value="">Chọn danh mục</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="newQuestion" class="form-label">Câu hỏi</label>
+              <input id="newQuestion" type="text" class="form-control" placeholder="Nhập câu hỏi" required>
+            </div>
+            <div class="col-md-4">
+              <label for="newAnswer" class="form-label">Trả lời</label>
+              <input id="newAnswer" type="text" class="form-control" placeholder="Nhập trả lời" required>
+            </div>
+            <div class="col-12 text-end">
+              <button type="submit" class="btn btn-custom">
+                <i class="bi bi-send-fill me-1"></i>Gửi
+              </button>
+            </div>
+          </form>
+        </div>
+        <!-- Filters -->
+        <!-- Section Title -->
+        <h5 class="mb-3 text-secondary"><i class="bi bi-list-task me-1"></i>Quản lý câu hỏi</h5>
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mb-4">
+          <div class="flex-grow-1">
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-search"></i></span>
+              <input id="searchInput" type="text" class="form-control" placeholder="Tìm kiếm...">
+            </div>
+          </div>
+          <div style="min-width: 150px;">
+            <div class="input-group">
+              <label class="input-group-text" for="rowsPerPage">Hiển thị</label>
+              <select id="rowsPerPage" class="form-select">
+                <option value="5">5</option>
+                <option value="10" selected>10</option>
+                <option value="20">20</option>
+              </select>
+              <span class="input-group-text">/trang</span>
+            </div>
+          </div>
+        </div>
+        <!-- Bảng câu hỏi -->
+        <div class="table-responsive">
+          <table id="questionTable" class="table table-hover align-middle text-center mb-0">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Danh mục</th>
+                <th class="text-start">Câu hỏi</th>
+                <th class="text-start">Trả lời</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="questionTableBody"></tbody>
+          </table>
+        </div>
+        <!-- Pagination -->
+        <nav aria-label="Page navigation">
+          <ul id="paginationControls" class="pagination justify-content-center mt-3 mb-0"></ul>
+        </nav>
+      </div>
     </div>
-
-    <div class="mb-3 text-start">
-      <label for="newQuestion" class="form-label fw-semibold">❓ Câu hỏi</label>
-      <input type="text" id="newQuestion" class="form-control" placeholder="Nhập câu hỏi..." required>
-    </div>
-
-    <div class="mb-3 text-start">
-      <label for="newAnswer" class="form-label fw-semibold">💬 Câu trả lời</label>
-      <textarea id="newAnswer" class="form-control" rows="5" placeholder="Nhập câu trả lời..." required></textarea>
-    </div>
-
-    <button type="submit" class="btn bg-white fs-5 d-flex justify-content-center align-items-center">📥</button>
-  </form>
-
-  <!-- Tìm kiếm + Số dòng / trang -->
-  <hr class="my-5">
-  <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4 gap-3">
-    <input type="text" id="searchInput" class="form-control w-100 w-md-50" placeholder="🔍 Tìm kiếm câu hỏi hoặc trả lời...">
-    <select id="rowsPerPage" class="form-select" style="max-width: 180px;">
-      <option value="5">5 dòng/trang</option>
-      <option value="10">10 dòng/trang</option>
-      <option value="20">20 dòng/trang</option>
-    </select>
   </div>
 
-  <!-- Danh sách câu hỏi -->
-  <h3 class="mb-3 text-primary fw-bold">📋 Danh sách câu hỏi</h3>
-  <div class="table-responsive">
-    <table class="table table-bordered table-hover align-middle text-center" id="questionTable">
-      <thead class="table-primary">
-        <tr>
-          <th>#</th>
-          <th>Danh mục</th>
-          <th>Câu hỏi</th>
-          <th>Trả lời</th>
-          <th>Xóa</th>
-          <th>Sửa</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-
-  <!-- Phân trang -->
-  <div class="d-flex justify-content-center mt-3" id="paginationControls"></div>
-</div>
-
-<script src="/main.js"></script>
+  <!-- Script Ajax/Logic -->
+  <script src="/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

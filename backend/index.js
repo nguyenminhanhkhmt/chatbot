@@ -62,6 +62,7 @@ app.get('/api/loaddanhmuc', (req, res) => {
   });
 });
 app.post('/api/danhmuc', (req, res) => {
+  console.log("Hi");
   const { ten } = req.body;
   if (!ten) {
     return res.status(400).json({ success: false, message: 'Thiếu tên danh mục' });
@@ -314,3 +315,4 @@ app.get("/api/chat_summary", (req, res) => {
 app.listen(3000, () => {
   console.log('Server running at http://0.0.0.0:3000');
 });
+

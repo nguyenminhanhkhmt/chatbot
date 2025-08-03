@@ -60,7 +60,7 @@ function renderTable() {
       <td class="cauhoi" data-id="${item.id}">${item.cauhoi}</td>
       <td class="traloi" data-id="${item.id}">${item.cautraloi}</td>
       <td><button class="btn bg-white ms-1 fs-6" data-id="${item.id}" data-action="delete">🗑</button></td>
-      <td><button class="btn bg-white ms-1 fs-6" data-action="edit">🖌️</button></td>
+      <td><button class="btn bg-white ms-1 fs-6" data-action="edit">✏</button></td>
     `;
     tbody.appendChild(row);
   });
@@ -157,7 +157,7 @@ function toggleEditRow(button) {
         if (data.success) {
           cauhoiCell.contentEditable = false;
           traloiCell.contentEditable = false;
-          button.textContent = '🖌️';
+          button.textContent = '✏';
         } else {
           alert('❌ Lỗi khi lưu dữ liệu');
         }
@@ -206,7 +206,7 @@ function loadDanhMucList() {
         <td>${index +1}</td>
         <td class="danhmuc-name" data-id="${item.id}">${item.ten}</td>
         <td>
-            <button class="btn bg-white ms-1 fs-6" data-action="edit-danhmuc">🖌️</button>
+            <button class="btn bg-white ms-1 fs-6" data-action="edit-danhmuc">✏</button>
             <button class="btn bg-white ms-1 fs-6" data-action="delete-danhmuc">🗑</button>
         </td>`;
       tbody.appendChild(tr);
@@ -250,7 +250,7 @@ function editDanhMuc(button) {
       .then(data => {
         if (data.success) {
           tenCell.contentEditable = false;
-          button.textContent = '🖌️';
+          button.textContent = '✏';
         } else {
           alert('❌ Lỗi khi cập nhật danh mục!');
         }

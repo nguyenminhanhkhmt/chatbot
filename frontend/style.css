@@ -1,7 +1,6 @@
 body {
   text-align: center;
   color: white;
-  height: 100vh;
   margin: 0;
   background: url('https://xettuyen.hcmue.edu.vn/welcome/img/hero-bg.jpg');
   background-color: rgba(16, 73, 116, 0.6);
@@ -26,6 +25,8 @@ label {
 textarea, input, select {
   background-color: rgba(255,255,255,0.9) !important;
 }
+
+
 
 button {
   padding: 10px 20px;
@@ -58,6 +59,8 @@ button:hover {
   padding: .5rem 1rem;
   text-decoration: none;
 }
+
+
 
 /* ✅ Dropdown Menu giống Bootstrap */
 .dropdown-menu {
@@ -124,4 +127,50 @@ body {
 
 .card-title {
   font-weight: bold;
+}
+
+/* Chat container */
+#chat-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  height: 300px;
+  overflow-y: auto;
+  background: #f8f9fa;
+  border: 1px solid #ccc;
+}
+
+/* chung cho mỗi bong bóng */
+.chat-bubble {
+  max-width: 75%;
+  padding: 10px 14px;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+/* === Tin của user (bên phải) === */
+.chat-bubble.user {
+  align-self: flex-end;           /* ép về bên phải */
+  margin-right: 5px;              /* khoảng cách so với lề */
+  background-color: #e75a68;      /* màu tím nhạt */
+  color: white;
+  border-radius: 20px 20px 0 20px; /* bo tròn 3 góc, góc trên trái vuông */
+}
+
+/* === Tin của bot (bên trái) === */
+.chat-bubble.bot {
+  align-self: flex-start;         /* ép về bên trái */
+  margin-left: 5px;               /* khoảng cách so với lề */
+  background-color: #e4e6eb;      /* xám nhạt */
+  color: #050505;
+  border-radius: 20px 20px 20px 0; /* bo tròn 3 góc, góc dưới trái vuông */
+}
+
+#chat-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;      /* Bạn có thể dùng 400, 500, 600, 700 tuỳ ý */
+  font-size: 1.75rem;    /* Thay cỡ chữ nếu cần */
+  color: #333;           /* Màu chữ theo ý bạn */
+  text-align: center;
 }

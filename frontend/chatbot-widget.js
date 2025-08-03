@@ -11,7 +11,7 @@
   const style = document.createElement("style");
   style.innerHTML = `
     #chatbot-toggle { position: fixed; bottom: 24px; right: 24px; background: #0d6efd; color: white; border: none; border-radius: 50%; width: 56px; height: 56px; font-size: 24px; cursor: pointer; z-index: 9998; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-    #chatbot-widget { position: fixed; bottom: 100px; right: 24px; width: 360px; height: 520px; background: white; border-radius: 16px; box-shadow: 0 0 20px rgba(0,0,0,0.15); display: none; flex-direction: column; z-index: 9999; font-family: "Segoe UI", sans-serif; overflow: hidden; }
+    #chatbot-widget { position: fixed; bottom: 100px; right: 24px; width: 360px; height: 520px; background: white; border-radius: 16px; box-shadow: 0 0 20px rgba(0,0,0,0.15); display: none; flex-direction: column; z-index: 9999; font-family: "Montserrat", sans-serif; overflow: hidden; }
     #chatbot-widget-header { background: #0d6efd; padding: 14px; color: white; font-size: 16px; font-weight: bold; }
     #chatbot-widget-messages { flex: 1; padding: 12px; overflow-y: auto; background: #f1f3f5; display: flex; flex-direction: column; gap: 8px; }
     .chat-msg { max-width: 80%; padding: 10px 14px; border-radius: 16px; white-space: pre-wrap; }

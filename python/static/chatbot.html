@@ -1,22 +1,145 @@
-<!-- static/chatbot.html -->
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+  <!-- Google Fonts: Montserrat -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- meta + bootstrap + icons -->
+  <style>
+    /* banner + navbar bạn có sẵn */
+
+    /* —— Thêm vào đây —— */
+    #chat-box {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 10px;
+      height: 300px;
+      overflow-y: auto;
+      background: #f8f9fa;
+      border: 1px solid #ccc;
+    }
+    .chat-bubble {
+      max-width: 75%;
+      padding: 10px 14px;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+    .chat-bubble.user {
+      align-self: flex-end;
+      background-color: #e75a68;
+      color: white;
+      border-radius: 20px 20px 0 20px;
+      margin-right: 5px;
+    }
+    .chat-bubble.bot {  
+      align-self: flex-start;
+      background-color: #e4e6eb;
+      color: #050505;
+      border-radius: 20px 20px 20px 0;
+      margin-left: 5px;
+    }
+  </style>
   <meta charset="UTF-8">
-  <title>Chatbot Tuyển Sinh</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trường TH - THCS -THPT Hòa Bình</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .top-banner {
+      background: white;
+      padding: 20px 0;
+      text-align: center;
+    }
+    .top-banner img.logo {
+      height: 100px;
+    }
+    .top-banner .school-title {
+      font-size: 28px;
+      font-weight: bold;
+      color: brown;
+    }
+    .top-banner .sub-title {
+      color: black;
+      font-weight: bold;
+    }
+    .top-banner .right-image img {
+      height: 100px;
+      object-fit: cover;
+    }
+    .navbar-custom {
+      background-color: brown;
+    }
+    .navbar-custom .nav-link {
+      color: white !important;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-  <h2>Chatbot Tuyển Sinh</h2>
-  <div id="chat-box" style="border: 1px solid #ccc; padding: 10px; width: 400px; height: 300px; overflow-y: scroll;"></div>
-  <input type="text" id="input" placeholder="Nhập câu hỏi..." style="width: 300px;">
-  <button onclick="send()">Gửi</button>
+
+  
+
+  <!-- Phần banner đầu -->
+  <div class="container-fluid top-banner">
+    <div class="row align-items-center text-center">
+      <div class="col-md-2">
+        <img src="https://84864c160d.vws.vegacdn.vn/UploadImages/Config/thpthoabinh/logo_new_website.png" alt="Logo trường" class="logo">
+      </div>
+      <div class="col-md-8">
+        <div class="sub-title">HỆ THỐNG TƯ VẤN TUYỂN SINH</div>
+        <div class="school-title">TRƯỜNG TIỂU HỌC - TRUNG HỌC CƠ SỞ</div>
+        <div class="school-title">TRUNG HỌC PHỔ THÔNG HÒA BÌNH</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu điều hướng -->
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link text-white" href="https://docs.google.com/forms/d/e/1FAIpQLSc7cmilqVrIjunbt4p9TpxsNH3AAOYJq0PMdAOWKV-1j2jRQQ/viewform"><i class="bi bi-info-circle"></i> ĐĂNG KÍ TUYỂN SINH</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-4" style="max-width: 50%; margin: 0 auto;">
+  <div class="card shadow">
+    <div class="card-body">
+      <h5 id="chat-title" class="card-title text-dark text-center">Trợ lý tư vấn tuyển sinh</h5>
+      <div id="chat-box"></div>
+      <div class="d-flex mt-3">
+        <input type="text" id="input" placeholder="Nhập câu hỏi..." class="form-control"
+               onkeydown="checkEnter(event)">
+        <button onclick="send()" class="btn btn-primary ms-2">Gửi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+</body>
+</html>
 
   <script>
+    function checkEnter(event) {
+    // Kiểm tra nếu người dùng nhấn phím Enter (key code 13)
+      if (event.key === "Enter") {
+        send();  // Gọi hàm gửi khi nhấn Enter
+      }
+    }
     async function send() {
       const message = document.getElementById('input').value;
       document.getElementById('input').value = "";
 
-      document.getElementById('chat-box').innerHTML += `<div><b>Bạn:</b> ${message}</div>`;
+      document.getElementById('chat-box').innerHTML += `<div style="text-align: right; margin-left: 100px;"><b>Bạn:</b> ${message}</div>`;
 
       const response = await fetch('/chat', {
         method: 'POST',
@@ -28,7 +151,96 @@
       });
 
       const data = await response.json();
-      document.getElementById('chat-box').innerHTML += `<div><b>Bot:</b> ${data.response}</div>`;
+      document.getElementById('chat-box').innerHTML += `<div style="text-align: left; margin-right: 100px;"><b>Bot:</b> ${data.response}</div>`;
+    }
+  </script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Chat bubble script -->
+  <script>
+    function checkEnter(event) {
+      if (event.key === "Enter") send();
+    }
+
+    async function send() {
+      const inputEl = document.getElementById('input');
+      const msg = inputEl.value.trim();
+      if (!msg) return;
+      inputEl.value = "";
+
+      const chatBox = document.getElementById('chat-box');
+
+      // Thêm tin của user
+      const userBubble = document.createElement('div');
+      userBubble.className = 'chat-bubble user';
+      userBubble.textContent = msg;
+      chatBox.appendChild(userBubble);
+
+      // Gọi API
+      const res = await fetch('/chat', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          session_id: "demo-session",
+          messages: [{role:"user",content:msg}]
+        })
+      });
+      const data = await res.json();
+
+      // Thêm tin của bot
+      const botBubble = document.createElement('div');
+      botBubble.className = 'chat-bubble bot';
+      botBubble.textContent = data.response;
+      chatBox.appendChild(botBubble);
+
+      // Cuộn xuống cuối
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  </script>
+</body>
+
+<body>
+  
+
+  <!-- Bootstrap JS + Icons -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- —— Chỉ 1 khối script duy nhất —— -->
+  <script>
+    function send() {
+      const inputEl = document.getElementById('input');
+      const msg = inputEl.value.trim();
+      if (!msg) return;
+      inputEl.value = "";
+
+      const chatBox = document.getElementById('chat-box');
+
+      // user
+      const u = document.createElement('div');
+      u.className = 'chat-bubble user';
+      u.textContent = msg;
+      chatBox.appendChild(u);
+
+      // gọi API
+      fetch('/chat', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          session_id: "demo-session",
+          messages: [{role:"user",content:msg}]
+        })
+      })
+      .then(r => r.json())
+      .then(data => {
+        const b = document.createElement('div');
+        b.className = 'chat-bubble bot';
+        b.textContent = data.response;
+        chatBox.appendChild(b);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      });
     }
   </script>
 </body>
